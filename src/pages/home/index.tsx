@@ -15,7 +15,7 @@ function Home() {
     stateOption: string;
     city: string;
     price: string | number;
-    images: ItemImageProps;
+    images: ItemImageProps[];
   }
 
   interface ItemImageProps {

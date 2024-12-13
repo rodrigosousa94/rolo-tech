@@ -4,7 +4,6 @@ import { FaWhatsapp } from "react-icons/fa"
 import { useParams } from "react-router-dom"
 import { getDoc, doc } from "firebase/firestore"
 import { db } from "../../services/firebaseConnection"
-import { Swiper, SwiperSlide } from "swiper/react"
 import { useNavigate } from "react-router-dom"
 
 
@@ -17,7 +16,7 @@ interface ItemProps {
   city: string;
   price: string | number;
   description: string;
-  images: ItemImageProps;
+  images: ItemImageProps[];
   uid: string;
   created: string;
   owner: string;
@@ -33,7 +32,7 @@ interface ItemImageProps {
 function ItemDetail() {
 
   const [item, setItem] = useState<ItemProps>()
-  const [sliderPerView, setSliderPerView] = useState<number>(2)
+
   const {id} = useParams()
   const navigate = useNavigate()
 
@@ -74,41 +73,11 @@ function ItemDetail() {
 
   },[id])
 
-  useEffect(() => {
 
-    function handleResize(){
-      if(window.innerWidth < 720){
-        setSliderPerView(1)
-      }else{
-        setSliderPerView(2)
-      }
-    }
-
-    handleResize()
-
-    window.addEventListener("resize", handleResize)
-
-    return() => {
-      window.removeEventListener("resize", handleResize)
-    }
-
-  },[])
 
     return (
       <Container>
-      { item && (
-          <Swiper
-             slidesPerView={sliderPerView}
-             pagination={{clickable: true}}
-             navigation
-              >
-              {item?.images.map((image) => (
-                <SwiperSlide key={image.name}>
-                 <img src={image.url} className="w-full h-96 object-cover"/>
-                </SwiperSlide>
-              ))}
-          </Swiper>
-      ) }
+                 <img src={item?.images[0].url} className="w-full h-96"/>
 
         {item && (
           <main className="w-full bg-white rounded-lg p-6 my-4">

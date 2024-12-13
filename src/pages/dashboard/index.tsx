@@ -20,7 +20,7 @@ function Dashboard() {
     stateOption: string;
     city: string;
     price: string | number;
-    images: ItemImageProps;
+    images: ItemImageProps[];
     uid: string;
   }
 
@@ -73,7 +73,7 @@ function Dashboard() {
     const docRef = doc(db, 'items', itemItem.id)
     await deleteDoc(docRef)
 
-    itemItem.images.map(async (image) => {
+    itemItem.images.map(async (image: any) => {
       const imagePath = `images/${image.uid}/${image.name}`
 
       const imageRef = ref(storage, imagePath)
