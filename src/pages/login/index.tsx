@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import toast from "react-hot-toast"
+
 const schema = z.object({
   email: z.string().email("Insira um email válido").min(1, "Este campo é obrigatório"),
   password: z.string().min(1, "Este campo é obrigatório")
@@ -39,10 +41,10 @@ function Login() {
     function onSubmit(data: FormData){
       signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
-        alert("Logado com sucesso")
+        toast.success("Logado com sucesso!")
         navigate('/dashboard', {replace: true})
       }).catch((error) => {
-        alert("Houve um erro ao logar")
+        toast.error("Houve um problema ao logar!")
         console.log(error)
       })
     }

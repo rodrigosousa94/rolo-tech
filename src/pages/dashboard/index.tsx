@@ -8,6 +8,8 @@ import { db, storage} from "../../services/firebaseConnection"
 
 import { ref, deleteObject } from "firebase/storage"
 
+import toast from "react-hot-toast"
+
 function Dashboard() {
 
   const { user } = useContext(AuthContext)
@@ -80,8 +82,10 @@ function Dashboard() {
 
       try{
         await deleteObject(imageRef)
+        toast.success("Item Excluido")
         setItems(items.filter( item => item.id !== itemItem.id))
       }catch(error){
+        toast.error("Erro ao excluir")
         console.log("deleteObject" + error)
       }
     })

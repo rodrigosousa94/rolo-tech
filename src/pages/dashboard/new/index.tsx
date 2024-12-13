@@ -12,6 +12,8 @@ import { storage, db } from "../../../services/firebaseConnection"
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { addDoc, collection } from "firebase/firestore"
 
+import toast from "react-hot-toast"
+
 const schema = z.object({
   name: z.string().min(1, "campo obrigatório"),
   model: z.string().min(1, "campo obrigatório"),
@@ -49,7 +51,7 @@ function New() {
 
   function onSubmit(data: FormData){
     if(itemImages.length === 0) {
-      alert("Por favor, insira as imagens do produto!")
+      toast.error("Insira a imagem do produto!")
       return
     }
 
@@ -62,8 +64,8 @@ function New() {
     })
 
     addDoc(collection(db, 'items'), {
-      name: data.name,
-      model: data.model,
+      name: data.name.toUpperCase(),
+      model: data.model.toUpperCase(),
       stateOption: data.stateOption,
       price: data.price,
       city: data.city,
@@ -78,7 +80,7 @@ function New() {
     .then(() => {
       reset()
       setItemImages([])
-      alert("Cadastrado com sucesso")
+      toast.success("Item Cadastrado!")
     }).catch((error) => {
       console.log(error)
     })
@@ -93,7 +95,7 @@ function New() {
       await handleUpload(image)
         
       }else{
-        alert("Envie somente imagens no formato .jpeg ou .png")
+        toast.error("Envie somente imagens no formato .jpeg ou .png")
         return
       }
 

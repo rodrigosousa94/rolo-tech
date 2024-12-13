@@ -13,6 +13,8 @@ import { useEffect, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
 
+import toast from "react-hot-toast"
+
 const schema = z.object({
   name: z.string().min(1, "Por favor preencha este campo!"),
   email: z.string().email("Insira um email válido!").min(1, "Por favor preencha este campo"),
@@ -52,10 +54,10 @@ function Register() {
         uid: user.user.uid
       })
 
-      alert("Cadastrado com sucesso")
+      toast.success("Cadastrado com sucesso!")
       navigate('/dashboard', {replace: true})
     }).catch((error) => {
-      alert("Houve um erro ao cadastrar")
+      toast.error("Houve um problema ao cadastrar!")
       console.log(error)
     })
   }

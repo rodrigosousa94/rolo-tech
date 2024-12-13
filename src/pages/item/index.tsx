@@ -77,7 +77,7 @@ function ItemDetail() {
 
     return (
       <Container>
-                 <img src={item?.images[0].url} className="w-full h-96"/>
+         <img src={item?.images[0].url} className="w-full h-96 object-contain"/>
 
         {item && (
           <main className="w-full bg-white rounded-lg p-6 my-4">
