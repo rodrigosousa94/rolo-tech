@@ -1,6 +1,62 @@
 import Container from "../../components/container"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+
+import { db } from "../../services/firebaseConnection"
+import { query, collection, getDocs, orderBy } from "firebase/firestore"
 
 function Home() {
+
+  interface ItemsProps {
+    id: string;
+    uid: string;
+    name: string;
+    model: string;
+    stateOption: string;
+    city: string;
+    price: string | number;
+    images: ItemImageProps;
+  }
+
+  interface ItemImageProps {
+    name: string;
+    uid: string;
+    url: string;
+  }
+
+  const [items, setItems] = useState<ItemsProps[]>([])
+  const [loadImages, setLoadImages] = useState<string[]>([])
+
+  useEffect(() => {
+    function loadItems() {
+      const itemsRef = collection(db, 'items')
+      const queryRef = query(itemsRef, orderBy('created', 'desc'))
+
+      getDocs(queryRef)
+      .then((snapshot) => {
+        let listItems = [] as ItemsProps[]
+
+        snapshot.forEach(doc => {
+          listItems.push({
+            id: doc.id,
+            name: doc.data().name,
+            model: doc.data().model,
+            stateOption: doc.data().stateOption,
+            city: doc.data().city,
+            price: doc.data().price,
+            images: doc.data().images,
+            uid: doc.data().uid
+          })
+        })
+        setItems(listItems)
+      })
+    }
+    loadItems()
+  },[])
+
+  function handleImageLoad(id: string){
+    setLoadImages((prevImageLoaded) => [...prevImageLoaded, id])
+  }
 
 
     return (
@@ -13,23 +69,29 @@ function Home() {
         <h1 className="font-bold text-center mt-6 text-2xl mb-4">Hardwares novos e usados em todo o Brasil</h1>
 
         <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <section className="w-full bg-white rounded-lg">
-            < img 
-              className="w-full rounded-lg mb-2 max-h-72 hover:scale-105 transition-all cursor-pointer"
-              src="https://imageio.forbes.com/specials-images/imageserve/61f13eb5795d7209e9dd1fb1/0x0.jpg?format=jpg&crop=2323,1307,x0,y599,safe&height=900&width=1600&fit=bounds" 
-              alt="produto-image"
-            />
-            <p className="font-bold mt-1 mb-2 px-2">Placa de vídeo RTX 4050 16gb RAM</p>
-            <div className="flex flex-col px-2">
-              <span className="text-zinc-700 mb-6">NOVO</span>
-              <strong className="text-black font-medium text-xl">R$1600.00</strong>
-              <div className="w-full h-px bg-slate-200 my-2"></div>
-              <div className="px-2 pb-2">
-                <span className="text-zinc-700 ">Rio de Janeiro - RJ</span>
-              </div>
-            </div>
-          </section>
-          
+          {items.map( item => (
+            <Link key={item.id} to={`/item/${item.id}`} >
+              <section className="w-full bg-white rounded-lg">
+                <div className="w-full h-72 rounded-lg bg-slate-200" style={{display: loadImages.includes(item.id) ? 'none' : 'block' }}></div>
+                < img 
+                  className="w-full rounded-lg mb-2 max-h-72 hover:scale-105 transition-all cursor-pointer"
+                  src={item.images[0].url}
+                  alt="produto-image"
+                  onLoad={() => handleImageLoad(item.id)}
+                  style={{display: loadImages.includes(item.id) ? 'block' : 'none' }}
+                />
+                <p className="font-bold mt-1 mb-2 px-2">{item.name} - {item.model}</p>
+                <div className="flex flex-col px-2">
+                  <span className="text-zinc-700 mb-6">{item.stateOption}</span>
+                  <strong className="text-black font-medium text-xl">R${item.price}</strong>
+                  <div className="w-full h-px bg-slate-200 my-2"></div>
+                  <div className="px-2 pb-2">
+                    <span className="text-zinc-700 ">{item.city}</span>
+                  </div>
+                </div>
+             </section>
+            </Link>
+          ))}
         </main>
       </Container>
     )

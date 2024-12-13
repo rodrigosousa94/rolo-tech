@@ -101,18 +101,24 @@ function New() {
   }
 
   async function handleUpload(image: File){
-    if(!user?.uid){
+    const currentUid = user?.uid
+
+    if(!currentUid){
       return
     }
 
-    const currentUid = user?.uid
     const uidImage = uuidV4()
 
     const uploadRef = ref(storage, `images/${currentUid}/${uidImage}`)
 
     uploadBytes(uploadRef, image)
-    .then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((downloadUrl) => {
+    .then(async (snapshot) => {
+      console.log("Erro snapshot", snapshot)
+      await getDownloadURL(snapshot.ref).then((downloadUrl) => {
+
+        console.log("Erro downloadURL" , downloadUrl);
+        
+
         const imageItem = {
           name: uidImage,
           uid: currentUid,
@@ -120,8 +126,13 @@ function New() {
           url: downloadUrl,
         }
 
+        console.log("imageItem: ", imageItem);
+        
+
         setItemImages((images) => [...images, imageItem])
       })
+    }).catch((error) => {
+      console.log(error)
     })
   }
 
