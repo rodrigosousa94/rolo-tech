@@ -1,50 +1,28 @@
-# React + TypeScript + Vite
+# Rolo.Tech - Plataforma de Compra e Venda de Hardware 💻🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bem-vindo ao Rolo.Tech! Este projeto nasceu da minha paixão por tecnologia e desenvolvimento, 
+trazendo uma solução inspirada na OLX, mas voltada exclusivamente para a compra e venda de hardware.
 
-Currently, two official plugins are available:
+# 📌 O que é o Rolo.Tech?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O Rolo.Tech é uma plataforma intuitiva e eficiente que conecta compradores e vendedores de componentes de hardware. 
+Desde peças para PCs gamers até acessórios e equipamentos técnicos, a plataforma facilita o encontro de quem quer vender e quem quer comprar com praticidade e segurança.
 
-## Expanding the ESLint configuration
+# 💡 Tecnologias Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React + TypeScript - Para garantir uma interface dinâmica, escalável e tipada.
+- Firebase - Utilizado como backend e para autenticação, trazendo segurança e agilidade.
+- TailwindCSS - Para criar um design responsivo, moderno e eficiente.
 
-- Configure the top-level `parserOptions` property like this:
+# 🚀 Objetivo do Projeto
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+O Rolo.Tech é uma excelente oportunidade para consolidar habilidades em desenvolvimento front-end e integração com tecnologias modernas. 
+O foco é proporcionar uma experiência fluida e intuitiva para os usuários, garantindo um ambiente seguro e prático para negociação.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+# Imagem do projeto
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+![Web1](https://github.com/rodrigosousa94/rolo-tech/blob/main/public/tech.rolo.png)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# 🤝 Contribuições e Feedback
+
+Este projeto está em constante evolução! Se você tem sugestões, feedbacks ou quer contribuir, sinta-se à vontade para abrir issues ou enviar PRs. Toda ajuda é bem-vinda! 🙌
